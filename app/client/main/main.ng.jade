@@ -8,8 +8,12 @@ md-card.videosCard(ng-show="roomSelected.length")
                 span and&nbsp;
                 span.bold {{roomSelected[0].singer2}}
     div.videosContainer(layout="row")
-        div#singer1.videoPlay(flex="50")
-        div#singer2.videoPlay(flex="50")
+        .center.videoPlay.singer1(flex="50" ng-show="!roomSelected[0].started" style="padding: 20px; background-color: white;" layout="column" layout-align="center center")
+            h3 {{roomSelected[0].singer1}} isn't streaming right now
+        .center.videoPlay.singer2(flex="50" ng-show="!roomSelected[0].started" style="padding: 20px; background-color: white;" layout="column" layout-align="center center")
+            h3 {{roomSelected[0].singer2}} isn't streaming right now
+        div#singer1.videoPlay(flex="50" ng-show="roomSelected[0].started")
+        div#singer2.videoPlay(flex="50" ng-show="roomSelected[0].started")
 
     div.buttonContainer(layout="row")
         div(flex="50")

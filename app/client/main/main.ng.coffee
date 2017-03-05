@@ -52,6 +52,16 @@ MainCtrl = ($scope, $state, $window, $meteor) ->
     previouslySelected = room
 
     roomJoined = (room) ->
+      room.on('disconnected', ->
+          room.localParticipant.media.detach();
+          room.participants.forEach((participant) ->
+            participant.media.detach()
+          )
+          currentRoom = null
+          $scope.roomSelected = []
+          $scope.roomSelectedIndex = null
+      )
+
       currentRoom = room
       console.log "joined"
       i = 0
@@ -116,7 +126,7 @@ MainCtrl = ($scope, $state, $window, $meteor) ->
   $scope.streamCount = 5
 
   $scope.helpers({
-    rooms: -> Rooms.find({ singer2: { $exists: yes } }).fetch()
+    rooms: -> Rooms.find({ singer2: { $exists: yes }, accepted: true }).fetch()
   })
 
   $scope.someRoom = -> $scope.rooms?.length

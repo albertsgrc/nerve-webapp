@@ -6,28 +6,22 @@ Meteor.methods(
         { id: result }
 
     requestPartner: ({ roomId, partnerId }) ->
+        console.log "requestPartner"
+
+        console.log { userId: this.userId }
+
         user = Meteor.users.findOne({ _id: partnerId })
         console.log {user}
 
+        console.log this.userId
+
         userMakingRequest = Meteor.users.findOne({ _id: this.userId })
 
-        console.log { userMakingRequest }
         nUpdated = Rooms.update({ _id: roomId, singer1: userMakingRequest.username }, { $set: { singer2: user.username } })
 
         {
             ok: nUpdated > 0,
         }
-
-
-    acceptRequest: ({ roomId }) ->
-        user = Meteor.users.findOne({ _id: this.userId })
-        console.log {user}
-        result = Rooms.update({ _id: roomId, singer2: user.username }, { $set: { accepted: yes } })
-
-        if result is 0
-            { ok: no, status: 'Request not found or not for singer2' }
-        else
-            { ok: yes }
 
 
     getUsers: -> Meteor.users.find({}).fetch()
