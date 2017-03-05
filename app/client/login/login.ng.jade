@@ -1,0 +1,23 @@
+.center-align.fullWidth
+    .z-depth-1.grey.lighten-4.row#loginContainer
+        form.col.s12(method="post")
+            .row
+                .col.s12
+            .row
+                .input-field.col.s12
+                    input#email.validate(type="email" name="email")
+                    label(for="email") Enter your email
+
+            .row
+                .input-field.col.s12
+                    input#password.validate(type="password" name="password")
+                    label(for="password") Enter your password
+
+                label(style='float:right;')
+                    a.pink-text(href="#!")
+                        b Forgot password?
+
+            center
+                .row
+                    button.col.s12.btn.btn-large.waves-effect.blue(type="submit" name="btn_login")
+                        | Login

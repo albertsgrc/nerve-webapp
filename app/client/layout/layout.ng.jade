@@ -1,0 +1,67 @@
+//
+    nav.indigo
+        .nav-wrapper.leftMarginL
+            a.brand-logo.left(ui-sref="main") Nerve
+
+            ul#nav-mobile.right.hide-on-med-and-down
+                li
+                    a.waves-effect.waves-light.btn.blue(ui-sref="login")
+                        | login
+
+                li
+                    a.waves-effect.waves-light.btn.blue(ui-sref="register")
+                        | register
+
+                li
+
+    main.blue-grey.lighten-5.siteContent
+        .container(ui-view="")
+
+//
+    footer.page-footer.indigo
+        .container
+            .row
+                .col.l6.s12
+                    h5.white-text Nerve
+                    p.grey-text.text-lighten-4
+                        span Nerve is a karaoke streaming app built at
+                        a.bold(href="https://hackupc.com/") &nbsp; HackUPC 2017 Winter
+
+                .col.l4.offset-l2.s12
+                    h5.white-text Links
+                    ul
+                        li#googlePlayButton
+                            a(href="/")
+                                img(src="/img/en_badge_web_generic.png")
+        .footer-copyright
+            .container
+                | © 2017 Nerve
+
+md-toolbar
+    .md-toolbar-tools(ng-cloak="")
+        .md-title Nerve
+        span(flex)
+
+main(ui-view="")
+
+
+footer(layout="column" layout-align="end" ng-cloak="")
+    md-toolbar.largeFooterToolbar(layout="row" layout-align="start center" layout-wrap="")
+        div(layout="column")
+            h3(flex="none") Nerve
+            h5.md-subhead
+                span Nerve is a Karaoke Streaming app built at
+                a(href="https://hackupc.com" target="_blank") &nbsp;HackUPC 2017 Winter
+
+            a.googlePlay(href="")
+                img(src="/img/en_badge_web_generic.png")
+    md-toolbar.credits.md-hue-2(layout="row" layout-align="start center")
+        span Built with&nbsp;
+        i.material-icons(style="color: #FF5252") favorite
+        span &nbsp;by&nbsp;
+        a.bold(href="http://github.com/pautena" target="_blank") Pau Tena
+        span &nbsp;&&nbsp;
+        a.bold(href="http://github.com/albertsgrc" target="_blank") Albert Segarra
+        span.speakerMan
+            span &nbsp;| Proudly promoted by&nbsp;
+            a.bold(href="http://github.com/anrodon" target="_blank") Andreu Rodríguez

@@ -1,0 +1,58 @@
+@import "/client/stylesheets/components/header.import.less";
+@import "/client/stylesheets/components/footer.import.less";
+@import "/client/login/login.import.less";
+@import "/client/register/register.import.less";
+@import "/client/layout/layout.import.less";
+@import "/client/main/main.import.less";
+
+.leftMarginL {
+    margin-left: 30px;
+}
+
+.fullWidth {
+    width: 100%;
+}
+
+.fullHeight {
+    height: 100%;
+}
+
+.site {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+.siteContent {
+    flex: 1;
+    padding-top: 20px;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.input-field input[type=date]:focus + label,
+.input-field input[type=text]:focus + label,
+.input-field input[type=email]:focus + label,
+.input-field input[type=password]:focus + label {
+    color: #e91e63;
+}
+
+.input-field input[type=date]:focus,
+.input-field input[type=text]:focus,
+.input-field input[type=email]:focus,
+.input-field input[type=password]:focus {
+    border-bottom: 2px solid #e91e63;
+    box-shadow: none;
+}
+
+.marginTop {
+    margin-top: 50px;
+}
+
+
+button i {
+    vertical-align: middle;
+    padding-right: 10px;
+}

@@ -1,0 +1,97 @@
+md-card.videosCard(ng-show="roomSelected.length")
+    md-toolbar.md-table-toolbar.contentToolbar(ng-hide="filter.show")
+        .md-toolbar-tools
+            h2.tableTitle
+                span.bold Millionaire&nbsp;
+                span with&nbsp;
+                span.bold {{roomSelected[0].singer1}}&nbsp;
+                span and&nbsp;
+                span.bold {{roomSelected[0].singer2}}
+    div.videosContainer(layout="row" style="height: 300px;")
+        div#singer1.videoPlay(flex="50")
+        div#singer2.videoPlay(flex="50")
+
+    div.buttonContainer(layout="row")
+        div(flex="50")
+            center
+                md-button.voteButton.md-raised#singer1vote(ng-click="vote(1)" ng-disabled="roomInfo[roomSelectedIndex].voted == 1" ng-class="{ 'voted': roomInfo[roomSelectedIndex].voted == 1 }")
+                    i.material-icons(ng-show="roomInfo[roomSelectedIndex].voted == 1") favorite
+                    span(ng-show="roomInfo[roomSelectedIndex].voted != 1") Vote&nbsp;
+                    span {{roomSelected[0].singer1}}
+        div(flex="50")
+            center
+                md-button.voteButton.md-raised#singer2vote(ng-click="vote(2)" ng-disabled="roomInfo[roomSelectedIndex].voted == 2" ng-class="{ 'voted': roomInfo[roomSelectedIndex].voted == 2 }")
+                    i.material-icons(ng-show="roomInfo[roomSelectedIndex].voted == 2") favorite
+                    span(ng-show="roomInfo[roomSelectedIndex].voted != 2") Vote&nbsp;
+                    span {{roomSelected[0].singer2}}
+
+    md-progress-linear(md-mode="determinate" value="{{computePercentage(roomSelected[0])}}")
+
+md-card
+    md-toolbar.md-table-toolbar.tableTitleToolbar.contentToolbar(ng-hide="filter.show")
+        .md-toolbar-tools
+            h2.bold.tableTitle
+                span.bold Karaoke Streamings
+            div(flex="")
+            md-button.md-icon-button(ng-click="filter.show = true")
+                md-icon(style="color: white;") filter_list
+
+
+    md-toolbar.md-table-toolbar.md-default.searchToolbar(ng-show="filter.show")
+        .md-toolbar-tools
+            md-icon search
+            form(flex="" name="form")
+                input(type="text" ng-model="filter.search" placeholder="Search streams by song or singers")
+            md-button.md-icon-button(ng-click="filter.search=''; filter.show = false")
+                md-icon close
+
+    md-table-container(ng-show="someRoom()")
+        table(md-table="" md-row-select="" multiple="false" ng-model="roomSelected")
+            thead(md-head="" md-order="taskQuery.order")
+                tr(md-row)
+                    th(md-column)
+                        span
+                    th(md-column md-order-by="data.experiment.name")
+                        span Title
+                    th(md-column)
+                        span Artist
+                    th(md-column md-order-by="data.test")
+                        span Singers
+                    th(md-column md-order-by="statusOrder")
+                        span Viewers
+            tbody(md-body="")
+                tr(md-row="" md-on-deselect="onRoomDeselected" md-on-select="onRoomSelected" md-select="room" md-select-id="_id" md-auto-select="true" ng-repeat="room in rooms | filter: filter.search | limitTo: roomsQuery.limit : (roomsQuery.page - 1) * roomsQuery.limit")
+                    td(md-cell="")
+                        img.albumart(ng-src="{{room.songImage}}")
+                    td.bold(md-cell="") {{ room.songTitle }}
+                    td(md-cell="") {{ room.songArtist }}
+                    td(md-cell="")
+                        span.bold.singer1 {{ room.singer1 }}
+                        span &nbsp;/&nbsp;
+                        span.bold.singer2 {{ room.singer2 }}
+                    td(md-cell="") {{ room.viewers }}
+    center(ng-hide="someRoom()")
+        h1 No one is streaming right now
+
+
+    md-table-pagination(md-limit="roomsQuery.limit" md-limit-options="[5, 10, 15, 30, 50]" md-page="roomsQuery.page" md-total="{{rooms.length}}" md-page-select="")
+
+//
+    h5.center.marginTop.bold(ng-hide="someRoom()") No streamings available
+    ul.collection.streamingList(ng-show="someRoom()")
+        li.collection-item.avatar(ng-repeat="room in rooms")
+            img.circle(src='{{ room.albumCover }}', alt='')
+            .row
+                .col.l4
+                    span.title {{ room.song.title }}
+                    p
+                        | {{ room.song.album }}
+                        br
+                        | {{ room.song.author }}
+                .col.l4
+                    p User1
+                    p User2
+
+            a.secondary-content.waves-effect.waves-light.btn.blue.valign.right.playButton(ng-click="playRoom(room._id)")
+                i.material-icons play_circle_outline
+
