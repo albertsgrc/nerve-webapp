@@ -28,7 +28,10 @@ MainCtrl = ($scope, $state, $window, $meteor) ->
 
   $scope.computePercentage = (room) ->
     if room?
-      100*(room.vote + room.nVotes/2)/(room.nVotes)
+      if room.nVotes > 0
+        100*(room.vote + room.nVotes/2)/(room.nVotes)
+      else
+        50
 
   $scope.onRoomSelected = (room, i) ->
     for _room , i in $scope.rooms
@@ -42,7 +45,9 @@ MainCtrl = ($scope, $state, $window, $meteor) ->
 
     Rooms.update({ _id: room._id }, { $inc: { viewers: 1 } })
 
-    currentRoom.disconnect() if currentRoom?
+    if currentRoom?
+      currentRoom.participants.forEach((participant) -> participant.media.detach())
+      currentRoom.disconnect()
 
     previouslySelected = room
 
@@ -76,10 +81,13 @@ MainCtrl = ($scope, $state, $window, $meteor) ->
 
 
   $scope.onRoomDeselected = (room) ->
-    currentRoom.disconnect() if currentRoom?
+    if currentRoom?
+      currentRoom.participants.forEach((participant) -> participant.media.detach())
+      currentRoom.disconnect()
 
     Rooms.update({ _id: room._id }, { $inc: { viewers: -1 } })
     previouslySelected = null
+    currentRoom = null
     $scope.roomSelectedIndex = null
 
   $scope.onExit = ->
@@ -91,9 +99,9 @@ MainCtrl = ($scope, $state, $window, $meteor) ->
 
     console.log singer
     if singer is 1
-      Rooms.update({ _id: $scope.roomSelected[0]._id }, { $inc: { vote: 1 } })
+      Rooms.update({ _id: $scope.roomSelected[0]._id }, { $inc: { vote: 1 +  ($scope.roomInfo[$scope.roomSelectedIndex].hasVoted ? 0) } })
     else
-      Rooms.update({ _id: $scope.roomSelected[0]._id }, { $inc: { vote: -1 } })
+      Rooms.update({ _id: $scope.roomSelected[0]._id }, { $inc: { vote: -(1 + ($scope.roomInfo[$scope.roomSelectedIndex].hasVoted ? 0)) } })
 
     unless $scope.roomInfo[$scope.roomSelectedIndex].hasVoted
       Rooms.update({ _id: $scope.roomSelected[0]._id }, { $inc: { nVotes: 1 } })

@@ -1,6 +1,6 @@
 @Rooms = new Mongo.Collection("rooms")
 
-Rooms.schema = new SimpleSchema(
+@Rooms.schema = schema = new SimpleSchema(
     songTitle:
         type: String
 
@@ -18,12 +18,10 @@ Rooms.schema = new SimpleSchema(
         defaultValue: 0
 
     singer1:
-        type: [String]
-        regEx: SimpleSchema.RegEx.Id
+        type: String
 
     singer2:
-        type: [String]
-        regEx: SimpleSchema.RegEx.Id
+        type: String
         optional: true
 
     accepted:
@@ -42,3 +40,5 @@ Rooms.schema = new SimpleSchema(
         type: Number
         defaultValue: 0
 )
+
+@Rooms.attachSchema(schema)

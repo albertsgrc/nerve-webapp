@@ -1,14 +1,17 @@
 import '/server/main.coffee'
 
 Meteor.methods(
-
-    joinRoom: ({ roomId }) ->
-
-        # TODO: Implement
+    createRoom: (roomData) ->
+        result = Rooms.insert(roomData)
+        { id: result }
 
     requestPartner: ({ roomId, partnerId }) ->
         user = Meteor.users.findOne({ _id: partnerId })
+        console.log {user}
+
         userMakingRequest = Meteor.users.findOne({ _id: this.userId })
+
+        console.log { userMakingRequest }
         nUpdated = Rooms.update({ _id: roomId, singer1: userMakingRequest.username }, { $set: { singer2: user.username } })
 
         {
@@ -18,6 +21,7 @@ Meteor.methods(
 
     acceptRequest: ({ roomId }) ->
         user = Meteor.users.findOne({ _id: this.userId })
+        console.log {user}
         result = Rooms.update({ _id: roomId, singer2: user.username }, { $set: { accepted: yes } })
 
         if result is 0
